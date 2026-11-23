@@ -1,0 +1,63 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices",
+    ":semanticCommits",
+    "abandonments:recommended",
+    ":disableRateLimiting",
+    ":disableDependencyDashboard"
+  ],
+  "rebaseWhen": "conflicted",
+  "platformAutomerge": false,
+  "vulnerabilityAlerts": {
+    "enabled": false
+  },
+  "osvVulnerabilityAlerts": true,
+  "packageRules": [
+    {
+      "description": "Automerge non-major updates via squash PR",
+      "matchUpdateTypes": [
+        "digest",
+        "pin",
+        "patch",
+        "minor"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    },
+    {
+      "description": "Require manual review for major updates",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false
+    },
+    {
+      "description": "Group and automerge non-major GitHub Actions updates",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "pin",
+        "patch",
+        "minor"
+      ],
+      "groupName": "github-actions (non-major)",
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    },
+    {
+      "description": "Apply 3-day minimum release age for third-party dependencies",
+      "matchPackageNames": [
+        "!bepoesied/**",
+        "!ghcr.io/bepoesied/**",
+        "!quay.io/drangon/**",
+        "!github.com/bepoesied/**"
+      ],
+      "minimumReleaseAge": "3 days"
+    }
+  ]
+}

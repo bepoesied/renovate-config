@@ -1,0 +1,4 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Default preset for bepoesied repositories. Org-wide defaults are automatically inherited from org-inherited-config.json by the self-hosted runner."
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "platform": "github",
+  "onboarding": true,
+  "onboardingConfig": {
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+      "local>bepoesied/renovate-config"
+    ]
+  },
+  "autodiscover": true,
+  "autodiscoverFilter": [
+    "bepoesied/*"
+  ],
+  "requireConfig": "required",
+  "inheritConfig": true,
+  "inheritConfigRepoName": "{{parentOrg}}/renovate-config",
+  "inheritConfigFileName": "org-inherited-config.json",
+  "inheritConfigStrict": true,
+  "platformCommit": "enabled",
+  "allowedUnsafeExecutions": [
+    "gradleWrapper"
+  ]
+}

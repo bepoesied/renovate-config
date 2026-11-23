@@ -1,0 +1,44 @@
+name: Validate Renovate
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/**"
+      - "*.json"
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/**"
+      - "*.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Prepare validation script
+        run: |
+          cat <<'EOF' > "${{ runner.temp }}/validate.sh"
+          #!/usr/bin/env bash
+          set -euo pipefail
+          cd /workspace
+          renovate-config-validator --strict
+          renovate-config-validator --strict org-inherited-config.json
+          renovate-config-validator --strict default.json
+          renovate-config-validator --strict renovate-config.json
+          EOF
+          chmod 0755 "${{ runner.temp }}/validate.sh"
+
+      - name: Validate Renovate configs
+        uses: renovatebot/github-action@acdd6bda8b035c99ce59d5675816af2aa65a1774 # v46.3.14
+        with:
+          token: ${{ github.token }}
+          docker-cmd-file: ${{ runner.temp }}/validate.sh
+          docker-volumes: ${{ github.workspace }}:/workspace:ro
